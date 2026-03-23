@@ -8,8 +8,6 @@
 *{box-sizing:border-box;margin:0;padding:0;}
 html,body{width:100%;height:100%;overflow:hidden;}
 body{background:#FFFFFF;font-family:Arial,sans-serif;display:flex;flex-direction:column;}
-
-/* TOP BAR */
 .topbar{background:#00557E;padding:8px 20px;display:flex;justify-content:space-between;align-items:center;flex-shrink:0;}
 .tb-left{display:flex;align-items:center;gap:14px;}
 .barrick{font-size:18px;font-weight:700;letter-spacing:.16em;color:#fff;}
@@ -18,8 +16,6 @@ body{background:#FFFFFF;font-family:Arial,sans-serif;display:flex;flex-direction
 .tb-date{font-size:13px;font-weight:700;color:#fff;margin-top:1px;}
 .clock{font-size:20px;font-weight:700;color:#ECB731;font-variant-numeric:tabular-nums;}
 .clock-sub{font-size:8px;color:rgba(255,255,255,.6);text-transform:uppercase;letter-spacing:.08em;text-align:right;margin-top:1px;}
-
-/* SUBBAR */
 .subbar{background:#F6F7F6;border-bottom:1px solid #dde0dd;padding:4px 20px;display:flex;align-items:center;gap:18px;flex-shrink:0;}
 .leg{display:flex;align-items:center;gap:5px;font-size:9.5px;color:#656565;}
 .leg-box{width:10px;height:10px;border-radius:2px;flex-shrink:0;}
@@ -28,19 +24,13 @@ body{background:#FFFFFF;font-family:Arial,sans-serif;display:flex;flex-direction
 .sep{width:1px;height:14px;background:#ccc;margin:0 2px;}
 .refresh-info{margin-left:auto;font-size:9px;color:#979797;}
 #last-update{font-weight:700;color:#00557E;}
-
-/* BODY */
 .body{display:grid;grid-template-columns:1fr 2px 158px 2px 1fr;flex:1;min-height:0;padding:10px 18px;gap:0;}
 .divider{background:#dde0dd;margin:0 9px;}
-
-/* PASILLO */
 .pasillo{display:flex;flex-direction:column;}
 .pasillo-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:7px;padding-bottom:5px;border-bottom:2px solid #00557E;}
 .pasillo-name{font-size:10px;font-weight:700;color:#00557E;text-transform:uppercase;letter-spacing:.08em;}
 .pasillo-badge{font-size:8px;color:#fff;background:#A39161;padding:2px 7px;border-radius:2px;}
 .rooms{display:flex;flex-direction:column;gap:3px;}
-
-/* ROOM — simple */
 .r{display:flex;align-items:stretch;background:#fff;border:1px solid #e3e6e3;border-radius:3px;overflow:hidden;min-height:30px;}
 .r-num{width:26px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;}
 .rn-occ{background:#C62325;} .rn-avail{background:#A3BA53;} .rn-part{background:#ECB731;color:#2a2000;}
@@ -48,8 +38,6 @@ body{background:#FFFFFF;font-family:Arial,sans-serif;display:flex;flex-direction
 .r-name.avail{color:#51857A;font-style:italic;}
 .r-bar{width:4px;flex-shrink:0;}
 .rb-occ{background:#C62325;} .rb-avail{background:#A3BA53;}
-
-/* ROOM — split (different AM/PM) */
 .r-split{background:#fff;border:1px solid #e3e6e3;border-radius:3px;overflow:hidden;}
 .rs-head{display:flex;align-items:stretch;border-bottom:1px solid #f0f0ef;min-height:24px;}
 .rs-head-num{width:26px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;background:#ECB731;color:#2a2000;}
@@ -65,8 +53,6 @@ body{background:#FFFFFF;font-family:Arial,sans-serif;display:flex;flex-direction
 .rs-content.avail{color:#51857A;font-style:italic;}
 .rs-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;margin-right:5px;}
 .dot-occ{background:#C62325;} .dot-avail{background:#A3BA53;}
-
-/* CENTER */
 .center-col{display:flex;flex-direction:column;padding:0 9px;}
 .center-hdr{text-align:center;margin-bottom:7px;padding-bottom:5px;border-bottom:2px solid #00557E;}
 .pp-label{font-size:9px;font-weight:700;color:#00557E;text-transform:uppercase;letter-spacing:.08em;}
@@ -83,7 +69,6 @@ body{background:#FFFFFF;font-family:Arial,sans-serif;display:flex;flex-direction
 </style>
 </head>
 <body>
-
 <div class="topbar">
   <div class="tb-left">
     <div class="barrick">BARRICK</div>
@@ -98,7 +83,6 @@ body{background:#FFFFFF;font-family:Arial,sans-serif;display:flex;flex-direction
     <div class="clock-sub">Hora local</div>
   </div>
 </div>
-
 <div class="subbar">
   <div class="leg"><div class="leg-box lb-occ"></div>Ocupado</div>
   <div class="leg"><div class="leg-box lb-avail"></div>Disponible</div>
@@ -107,7 +91,6 @@ body{background:#FFFFFF;font-family:Arial,sans-serif;display:flex;flex-direction
   <div class="leg"><div class="leg-box lb-ves"></div>Turno Tarde</div>
   <div class="refresh-info">Última actualización: <span id="last-update">--</span> &nbsp;·&nbsp; Se refresca cada 5 min</div>
 </div>
-
 <div class="body">
   <div class="pasillo">
     <div class="pasillo-hdr">
@@ -116,9 +99,7 @@ body{background:#FFFFFF;font-family:Arial,sans-serif;display:flex;flex-direction
     </div>
     <div class="rooms" id="left"></div>
   </div>
-
   <div class="divider"></div>
-
   <div class="center-col">
     <div class="center-hdr">
       <div class="pp-label">Pasillo Principal</div>
@@ -136,9 +117,7 @@ body{background:#FFFFFF;font-family:Arial,sans-serif;display:flex;flex-direction
       <div id="conf"></div>
     </div>
   </div>
-
   <div class="divider"></div>
-
   <div class="pasillo">
     <div class="pasillo-hdr">
       <div class="pasillo-name">Pasillo Derecho →</div>
@@ -147,7 +126,6 @@ body{background:#FFFFFF;font-family:Arial,sans-serif;display:flex;flex-direction
     <div class="rooms" id="right"></div>
   </div>
 </div>
-
 <script>
 const PASILLO_ORDER = {
   izquierdo: ["CDE-Sala01","CDE-Sala02","CDE-Sala03","CDE-Sala04","CDE-Sala05","CDE-Sala06"],
@@ -155,14 +133,12 @@ const PASILLO_ORDER = {
   conferencias: ["CDE-Sala16"],
   derecho: ["CDE-Sala08","CDE-Sala09","CDE-Sala10","CDE-Sala11","CDE-Sala12","CDE-Sala13"]
 };
-
 const DISPLAY_NUM = {
   "CDE-Sala00":"00","CDE-Sala01":"01","CDE-Sala02":"02","CDE-Sala03":"03",
   "CDE-Sala04":"04","CDE-Sala05":"05","CDE-Sala06":"06","CDE-Sala07":"07",
   "CDE-Sala08":"08","CDE-Sala09":"09","CDE-Sala10":"10","CDE-Sala11":"11",
   "CDE-Sala12":"12","CDE-Sala13":"13","CDE-Sala16":"16"
 };
-
 function getStatus(am, pm) {
   const hasAM = !!am, hasPM = !!pm;
   if (!hasAM && !hasPM) return 'avail';
@@ -171,18 +147,14 @@ function getStatus(am, pm) {
   if (hasAM && hasPM && am !== pm) return 'split';
   return 'occ';
 }
-
 function simpleCard(num, name, status) {
   const isAvail = status === 'avail';
-  const numClass = isAvail ? 'rn-avail' : 'rn-occ';
-  const barClass = isAvail ? 'rb-avail' : 'rb-occ';
   return `<div class="r">
-    <div class="r-num ${numClass}">${num}</div>
+    <div class="r-num ${isAvail?'rn-avail':'rn-occ'}">${num}</div>
     <div class="r-name${isAvail?' avail':''}">${isAvail ? 'Disponible' : name}</div>
-    <div class="r-bar ${barClass}"></div>
+    <div class="r-bar ${isAvail?'rb-avail':'rb-occ'}"></div>
   </div>`;
 }
-
 function splitCard(num, am, pm) {
   const amAvail = !am, pmAvail = !pm;
   return `<div class="r-split">
@@ -210,24 +182,18 @@ function splitCard(num, am, pm) {
     </div>
   </div>`;
 }
-
 function renderRoom(salonId, data) {
   const num = DISPLAY_NUM[salonId] ?? salonId.replace('CDE-Sala','');
   const am = data?.am ?? null;
   const pm = data?.pm ?? null;
   const status = getStatus(am, pm);
-
   if (status === 'avail') return simpleCard(num, null, 'avail');
   if (status === 'occ') return simpleCard(num, am, 'occ');
-  // partial = one shift occupied, one free OR two different trainings
   return splitCard(num, am, pm);
 }
-
 function renderAll(data) {
   const salones = data.salones ?? {};
-
   document.getElementById('hdr-date').textContent = data.fecha ?? '—';
-
   ['izquierdo','principal','derecho','conferencias'].forEach(pasillo => {
     const ids = PASILLO_ORDER[pasillo];
     const target = pasillo === 'izquierdo' ? 'left'
@@ -236,31 +202,24 @@ function renderAll(data) {
                  : 'right';
     document.getElementById(target).innerHTML = ids.map(id => renderRoom(id, salones[id])).join('');
   });
-
-  const now = new Date();
   document.getElementById('last-update').textContent =
-    now.toLocaleTimeString('es-DO', {hour:'2-digit', minute:'2-digit'});
+    new Date().toLocaleTimeString('es-DO', {hour:'2-digit', minute:'2-digit'});
 }
-
 async function fetchData() {
   try {
-    const res = await fetch('https://barrickgold.sharepoint.com/sites/puebloviejo-training/TrainingSystems/Systems%20Library/00.%20Power%20Automate/Calendario%20-%20Barrick%20Academy/data.json?t=' + Date.now(), {credentials: 'include'});
+    const res = await fetch('https://dsanzmbarrick.github.io/barrickacademy-calendar/data.json?t=' + Date.now());
     const data = await res.json();
     renderAll(data);
   } catch(e) {
     console.error('Error cargando data.json:', e);
   }
 }
-
-// Clock
 function tick() {
   document.getElementById('clk').textContent =
     new Date().toLocaleTimeString('es-DO', {hour:'2-digit', minute:'2-digit', second:'2-digit'});
 }
 tick();
 setInterval(tick, 1000);
-
-// Data refresh every 5 min
 fetchData();
 setInterval(fetchData, 5 * 60 * 1000);
 </script>
