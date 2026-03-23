@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Barrick Academy — CDE</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --azul:#00557E;--azul-dark:#002D44;--dorado:#A39161;--dorado-lt:#C8B080;
+  --blanco:#FFFFFF;--gris-500:#8A8E96;--transition:280ms cubic-bezier(.4,0,.2,1);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{width:100%;height:100%;overflow:hidden;}
+body{font-family:'DM Sans',sans-serif;background:var(--azul-dark);display:flex;flex-direction:column;position:relative;}
+
+.bg{position:absolute;inset:0;z-index:0;background:linear-gradient(145deg,#001C2E 0%,#003554 40%,#00456A 70%,#005F8A 100%);overflow:hidden;}
+.bg::before{content:'';position:absolute;width:700px;height:700px;border-radius:50%;background:radial-gradient(circle,rgba(0,85,126,.35) 0%,transparent 70%);top:-200px;right:-150px;}
+.bg::after{content:'';position:absolute;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(163,145,97,.12) 0%,transparent 70%);bottom:-100px;left:-100px;}
+.grid-lines{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);background-size:60px 60px;}
+
+/* HEADER */
+.header{position:relative;z-index:10;padding:24px 40px 0;display:flex;align-items:center;justify-content:space-between;}
+.brand{display:flex;align-items:center;gap:14px;}
+.brand-icon{width:46px;height:46px;border-radius:10px;background:rgba(163,145,97,.2);border:1px solid rgba(163,145,97,.35);display:flex;align-items:center;justify-content:center;}
+.brand-icon svg{width:24px;height:24px;fill:var(--dorado);}
+.brand-name{font-family:'Sora',sans-serif;font-size:14px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--dorado);line-height:1;}
+.brand-sub{font-size:11px;color:rgba(255,255,255,.4);margin-top:3px;letter-spacing:.04em;}
+
+/* LANGUAGE TOGGLE */
+.lang-wrap{display:flex;align-items:center;gap:6px;}
+.lang-label{font-size:10px;color:rgba(255,255,255,.35);letter-spacing:.08em;text-transform:uppercase;margin-right:2px;}
+.lang-toggle{display:flex;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:30px;padding:3px;gap:2px;}
+.lang-btn{
+  padding:6px 16px;border-radius:24px;border:none;
+  font-family:'Sora',sans-serif;font-size:11px;font-weight:700;letter-spacing:.06em;
+  cursor:pointer;transition:var(--transition);background:transparent;color:rgba(255,255,255,.4);
+}
+.lang-btn.active{background:var(--dorado);color:#fff;}
+.lang-btn:not(.active):hover{background:rgba(255,255,255,.1);color:rgba(255,255,255,.8);}
+
+/* HERO */
+.hero{position:relative;z-index:10;flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:16px 40px 0;text-align:center;}
+.hero-tag{display:inline-flex;align-items:center;gap:8px;background:rgba(163,145,97,.15);border:1px solid rgba(163,145,97,.3);padding:6px 18px;border-radius:30px;font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--dorado-lt);margin-bottom:20px;}
+.hero-tag-dot{width:6px;height:6px;border-radius:50%;background:var(--dorado);animation:blink 2s ease infinite;}
+@keyframes blink{0%,100%{opacity:1;}50%{opacity:.3;};}
+.hero-title{font-family:'Sora',sans-serif;font-size:clamp(30px,5vw,54px);font-weight:800;line-height:1.1;color:var(--blanco);letter-spacing:-.02em;margin-bottom:12px;}
+.hero-title span{color:transparent;background:linear-gradient(90deg,var(--dorado),var(--dorado-lt));-webkit-background-clip:text;background-clip:text;}
+.hero-sub{font-size:15px;color:rgba(255,255,255,.45);max-width:420px;line-height:1.6;margin-bottom:44px;}
+
+/* CARDS */
+.cards{display:flex;gap:24px;justify-content:center;align-items:stretch;width:100%;max-width:760px;}
+.card{flex:1;max-width:340px;border-radius:20px;cursor:pointer;position:relative;overflow:hidden;border:1px solid rgba(255,255,255,.08);text-decoration:none;display:flex;flex-direction:column;transition:transform var(--transition),box-shadow var(--transition);animation:riseUp .5s cubic-bezier(.4,0,.2,1) both;}
+.card:nth-child(1){animation-delay:.1s;}
+.card:nth-child(2){animation-delay:.2s;}
+@keyframes riseUp{from{opacity:0;transform:translateY(24px);}to{opacity:1;transform:translateY(0);}}
+.card:hover{transform:translateY(-6px);box-shadow:0 24px 60px rgba(0,0,0,.4);}
+.card:active{transform:translateY(-2px);}
+.card-cal{background:linear-gradient(145deg,rgba(0,85,126,.9) 0%,rgba(0,63,94,.95) 100%);box-shadow:0 8px 32px rgba(0,0,0,.3),inset 0 1px 0 rgba(255,255,255,.1);}
+.card-cal::before{content:'';position:absolute;top:-40px;right:-40px;width:180px;height:180px;border-radius:50%;background:rgba(255,255,255,.04);}
+.card-map{background:linear-gradient(145deg,rgba(163,145,97,.25) 0%,rgba(120,105,65,.3) 100%);box-shadow:0 8px 32px rgba(0,0,0,.25),inset 0 1px 0 rgba(255,255,255,.08);border-color:rgba(163,145,97,.25);}
+.card-map::before{content:'';position:absolute;top:-40px;right:-40px;width:180px;height:180px;border-radius:50%;background:rgba(163,145,97,.06);}
+.card-inner{position:relative;z-index:1;padding:36px 32px 32px;display:flex;flex-direction:column;align-items:flex-start;flex:1;}
+.card-icon{width:60px;height:60px;border-radius:16px;display:flex;align-items:center;justify-content:center;margin-bottom:24px;}
+.card-cal .card-icon{background:rgba(255,255,255,.12);}
+.card-map .card-icon{background:rgba(163,145,97,.2);border:1px solid rgba(163,145,97,.3);}
+.card-icon svg{width:28px;height:28px;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;}
+.card-cal .card-icon svg{stroke:rgba(255,255,255,.9);}
+.card-map .card-icon svg{stroke:var(--dorado);}
+.card-label{font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;margin-bottom:8px;}
+.card-cal .card-label{color:rgba(255,255,255,.45);}
+.card-map .card-label{color:rgba(163,145,97,.7);}
+.card-title{font-family:'Sora',sans-serif;font-size:28px;font-weight:700;line-height:1.1;margin-bottom:12px;}
+.card-cal .card-title{color:var(--blanco);}
+.card-map .card-title{color:var(--dorado-lt);}
+.card-desc{font-size:13px;line-height:1.6;flex:1;}
+.card-cal .card-desc{color:rgba(255,255,255,.5);}
+.card-map .card-desc{color:rgba(200,176,128,.55);}
+.card-arrow{margin-top:28px;width:42px;height:42px;border-radius:12px;display:flex;align-items:center;justify-content:center;transition:transform var(--transition);}
+.card-cal .card-arrow{background:rgba(255,255,255,.1);}
+.card-map .card-arrow{background:rgba(163,145,97,.2);}
+.card:hover .card-arrow{transform:translateX(4px);}
+.card-arrow svg{width:18px;height:18px;fill:none;stroke-width:2;stroke-linecap:round;}
+.card-cal .card-arrow svg{stroke:rgba(255,255,255,.8);}
+.card-map .card-arrow svg{stroke:var(--dorado);}
+
+/* FOOTER */
+.footer{position:relative;z-index:10;padding:16px 40px 24px;text-align:center;font-size:11px;color:rgba(255,255,255,.2);letter-spacing:.04em;}
+
+/* MAPA FULLSCREEN */
+.map-view{position:fixed;inset:0;z-index:200;background:#000;display:flex;flex-direction:column;opacity:0;visibility:hidden;transition:opacity .3s ease,visibility .3s ease;}
+.map-view.open{opacity:1;visibility:visible;}
+.map-topbar{display:flex;align-items:center;justify-content:space-between;padding:14px 20px;background:var(--azul-dark);flex-shrink:0;border-bottom:1px solid rgba(255,255,255,.08);}
+.map-topbar-left{display:flex;align-items:center;gap:12px;}
+.map-back{width:36px;height:36px;border-radius:8px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);color:var(--blanco);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:var(--transition);}
+.map-back:hover{background:rgba(255,255,255,.18);}
+.map-back svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;}
+.map-topbar-title{font-family:'Sora',sans-serif;font-size:14px;font-weight:600;color:var(--blanco);}
+.map-topbar-sub{font-size:11px;color:rgba(255,255,255,.4);margin-top:2px;}
+.map-topbar-right{display:flex;gap:8px;}
+.map-action{display:flex;align-items:center;gap:6px;padding:7px 14px;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;cursor:pointer;transition:var(--transition);text-decoration:none;border:none;}
+.map-zoom-btn{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);color:var(--blanco);}
+.map-zoom-btn:hover{background:rgba(255,255,255,.18);}
+.map-dl{background:rgba(163,145,97,.2);border:1px solid rgba(163,145,97,.35);color:var(--dorado);}
+.map-dl:hover{background:rgba(163,145,97,.35);}
+.map-action svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+.map-img-wrap{flex:1;overflow:auto;display:flex;align-items:center;justify-content:center;background:#0a0f14;}
+.map-fullimg{max-width:100%;max-height:100%;object-fit:contain;display:block;transition:transform .3s ease;cursor:zoom-in;}
+.map-fullimg.zoomed{max-width:none;max-height:none;width:auto;min-width:150%;cursor:zoom-out;}
+.map-ph{display:none;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:40px;text-align:center;}
+.map-ph.show{display:flex;}
+.mph-icon{font-size:64px;opacity:.3;}
+.mph-title{font-family:'Sora',sans-serif;font-size:18px;font-weight:600;color:rgba(255,255,255,.5);}
+.mph-sub{font-size:13px;color:rgba(255,255,255,.3);max-width:360px;line-height:1.7;}
+.mph-sub code{background:rgba(255,255,255,.08);padding:2px 8px;border-radius:4px;font-family:monospace;color:var(--dorado);font-size:12px;}
+.map-hint{flex-shrink:0;padding:10px;text-align:center;font-size:11px;color:rgba(255,255,255,.25);background:var(--azul-dark);border-top:1px solid rgba(255,255,255,.06);}
+
+@media(max-width:640px){
+  .header{padding:18px 20px 0;}
+  .hero{padding:12px 20px 0;}
+  .hero-title{font-size:26px;}
+  .hero-sub{font-size:13px;margin-bottom:28px;}
+  .cards{flex-direction:column;gap:14px;align-items:center;}
+  .card{max-width:100%;width:100%;}
+  .card-inner{padding:24px 22px 20px;}
+  .card-title{font-size:22px;}
+  .footer{padding:12px 20px 18px;}
+  .lang-label{display:none;}
+  .map-action span{display:none;}
+}
+</style>
+</head>
+<body>
+
+<div class="bg"><div class="grid-lines"></div></div>
+
+<header class="header">
+  <div class="brand">
+    <div class="brand-icon">
+      <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+    </div>
+    <div>
+      <div class="brand-name">Barrick Academy</div>
+      <div class="brand-sub" data-i18n="brand_sub">Centro de Entrenamiento CDE</div>
+    </div>
+  </div>
+
+  <div class="lang-wrap">
+    <span class="lang-label" data-i18n="lang_label">Idioma</span>
+    <div class="lang-toggle">
+      <button class="lang-btn active" data-lang="es">ES</button>
+      <button class="lang-btn" data-lang="en">EN</button>
+    </div>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="hero-tag">
+    <div class="hero-tag-dot"></div>
+    <span data-i18n="hero_tag">Pueblo Viejo — Sistema de Capacitaciones</span>
+  </div>
+  <h1 class="hero-title" data-i18n="hero_title_html">¿Qué deseas<br><span>consultar?</span></h1>
+  <p class="hero-sub" data-i18n="hero_sub">Selecciona una opción para ver la programación semanal de salones o el mapa del CDE.</p>
+
+  <div class="cards">
+    <a href="calendario_semanal.html" class="card card-cal">
+      <div class="card-inner">
+        <div class="card-icon">
+          <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/><path d="M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01M16 18h.01"/></svg>
+        </div>
+        <div class="card-label" data-i18n="card_cal_label">Consultar programación</div>
+        <div class="card-title" data-i18n="card_cal_title_html">Calendario<br>Semanal</div>
+        <div class="card-desc" data-i18n="card_cal_desc">Ver todos los salones programados durante la semana, filtrar por día, turno o entrenamiento.</div>
+        <div class="card-arrow">
+          <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </div>
+      </div>
+    </a>
+
+    <div class="card card-map" id="btn-mapa">
+      <div class="card-inner">
+        <div class="card-icon">
+          <svg viewBox="0 0 24 24"><path d="M9 20l-5.447-2.724A1 1 0 0 1 3 16.382V5.618a1 1 0 0 1 1.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0 0 21 18.382V7.618a1 1 0 0 0-1.447-.894L15 9m0 8V9m0 0L9 7"/></svg>
+        </div>
+        <div class="card-label" data-i18n="card_map_label">Ubicación de salones</div>
+        <div class="card-title" data-i18n="card_map_title_html">Mapa<br>del CDE</div>
+        <div class="card-desc" data-i18n="card_map_desc">Ver el plano del Centro de Entrenamiento con la ubicación exacta de cada pasillo y salón.</div>
+        <div class="card-arrow">
+          <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="footer" data-i18n="footer">Barrick Academy · Pueblo Viejo · Sistema de Programación de Salones</div>
+
+<!-- MAPA FULLSCREEN -->
+<div class="map-view" id="map-view">
+  <div class="map-topbar">
+    <div class="map-topbar-left">
+      <button class="map-back" id="map-back">
+        <svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      </button>
+      <div>
+        <div class="map-topbar-title" data-i18n="map_title">Mapa del CDE — Barrick Academy</div>
+        <div class="map-topbar-sub" data-i18n="map_sub">Centro de Entrenamiento · Pueblo Viejo</div>
+      </div>
+    </div>
+    <div class="map-topbar-right">
+      <button class="map-action map-zoom-btn" id="zoom-btn">
+        <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35M11 8v6M8 11h6"/></svg>
+        <span data-i18n="map_zoom">Zoom</span>
+      </button>
+      <a href="mapa_cde.png" download class="map-action map-dl">
+        <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        <span data-i18n="map_download">Descargar</span>
+      </a>
+    </div>
+  </div>
+  <div class="map-img-wrap">
+    <img src="mapa_cde.png" alt="Mapa CDE" class="map-fullimg" id="map-fullimg"
+         onerror="this.style.display='none';document.getElementById('map-ph').classList.add('show')">
+    <div class="map-ph" id="map-ph">
+      <div class="mph-icon">🗺️</div>
+      <div class="mph-title" data-i18n="map_ph_title">Mapa no disponible aún</div>
+      <div class="mph-sub" data-i18n="map_ph_sub">Sube el archivo <code>mapa_cde.png</code> a la carpeta en GitHub.</div>
+    </div>
+  </div>
+  <div class="map-hint" data-i18n="map_hint">Toca la imagen para hacer zoom · Pellizca para ampliar en móvil</div>
+</div>
+
+<script>
+// ── TRADUCCIONES ──
+const T = {
+  es: {
+    brand_sub:           "Centro de Entrenamiento CDE",
+    lang_label:          "Idioma",
+    hero_tag:            "Pueblo Viejo — Sistema de Capacitaciones",
+    hero_title_html:     "¿Qué deseas<br><span>consultar?</span>",
+    hero_sub:            "Selecciona una opción para ver la programación semanal de salones o el mapa del CDE.",
+    card_cal_label:      "Consultar programación",
+    card_cal_title_html: "Calendario<br>Semanal",
+    card_cal_desc:       "Ver todos los salones programados durante la semana, filtrar por día, turno o entrenamiento.",
+    card_map_label:      "Ubicación de salones",
+    card_map_title_html: "Mapa<br>del CDE",
+    card_map_desc:       "Ver el plano del Centro de Entrenamiento con la ubicación exacta de cada pasillo y salón.",
+    footer:              "Barrick Academy · Pueblo Viejo · Sistema de Programación de Salones",
+    map_title:           "Mapa del CDE — Barrick Academy",
+    map_sub:             "Centro de Entrenamiento · Pueblo Viejo",
+    map_zoom:            "Zoom",
+    map_download:        "Descargar",
+    map_ph_title:        "Mapa no disponible aún",
+    map_ph_sub:          "Sube el archivo <code>mapa_cde.png</code> a la carpeta en GitHub.",
+    map_hint:            "Toca la imagen para hacer zoom · Pellizca para ampliar en móvil",
+  },
+  en: {
+    brand_sub:           "Training Center CDE",
+    lang_label:          "Language",
+    hero_tag:            "Pueblo Viejo — Training System",
+    hero_title_html:     "What do you want<br><span>to look up?</span>",
+    hero_sub:            "Select an option to view the weekly room schedule or the CDE map.",
+    card_cal_label:      "View schedule",
+    card_cal_title_html: "Weekly<br>Calendar",
+    card_cal_desc:       "See all rooms scheduled for the week, filter by day, shift, or training.",
+    card_map_label:      "Room locations",
+    card_map_title_html: "CDE<br>Map",
+    card_map_desc:       "View the Training Center floor plan with the exact location of each hallway and room.",
+    footer:              "Barrick Academy · Pueblo Viejo · Room Scheduling System",
+    map_title:           "CDE Map — Barrick Academy",
+    map_sub:             "Training Center · Pueblo Viejo",
+    map_zoom:            "Zoom",
+    map_download:        "Download",
+    map_ph_title:        "Map not available yet",
+    map_ph_sub:          "Upload the file <code>mapa_cde.png</code> to the GitHub repository folder.",
+    map_hint:            "Tap the image to zoom · Pinch to enlarge on mobile",
+  }
+};
+
+let lang = localStorage.getItem('ba_lang') || 'es';
+
+function applyLang(l){
+  lang = l;
+  localStorage.setItem('ba_lang', l);
+  document.documentElement.lang = l;
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.dataset.i18n;
+    if(T[l][key] !== undefined) el.innerHTML = T[l][key];
+  });
+  document.querySelectorAll('.lang-btn').forEach(b =>
+    b.classList.toggle('active', b.dataset.lang === l)
+  );
+}
+
+document.querySelectorAll('.lang-btn').forEach(btn =>
+  btn.addEventListener('click', () => applyLang(btn.dataset.lang))
+);
+
+applyLang(lang);
+
+// ── MAPA ──
+const mapView = document.getElementById('map-view');
+const img     = document.getElementById('map-fullimg');
+let zoomed    = false;
+
+document.getElementById('btn-mapa').addEventListener('click', () => mapView.classList.add('open'));
+document.getElementById('map-back').addEventListener('click', closeMap);
+document.addEventListener('keydown', e => { if(e.key==='Escape') closeMap(); });
+mapView.addEventListener('click', e => { if(e.target===mapView) closeMap(); });
+
+function closeMap(){
+  mapView.classList.remove('open');
+  zoomed = false;
+  img.classList.remove('zoomed');
+}
+
+const zoomBtn = document.getElementById('zoom-btn');
+function toggleZoom(){
+  zoomed = !zoomed;
+  img.classList.toggle('zoomed', zoomed);
+  zoomBtn.querySelector('[data-i18n="map_zoom"]').textContent =
+    zoomed ? (lang==='es'?'Reducir':'Reduce') : (lang==='es'?'Zoom':'Zoom');
+}
+img.addEventListener('click', toggleZoom);
+zoomBtn.addEventListener('click', toggleZoom);
+</script>
+</body>
+</html>
