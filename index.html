@@ -10,7 +10,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#F6F7F6;}
 body{font-family:Arial,sans-serif;display:flex;flex-direction:column;}
 .header{background:#00557E;border-bottom:3px solid #A39161;padding:8px 20px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
 .logo-area{display:flex;align-items:center;gap:10px;}
-.logo-img{height:42px;width:auto;}
+.logo-img{height:42px;width:auto;mix-blend-mode:screen;}
 .logo-text{border-left:1px solid rgba(255,255,255,.2);padding-left:11px;}
 .logo-title{font-size:11px;color:#A39161;text-transform:uppercase;letter-spacing:.12em;font-weight:700;}
 .logo-sub{font-size:9px;color:rgba(255,255,255,.6);text-transform:uppercase;letter-spacing:.1em;margin-top:2px;}
@@ -19,7 +19,7 @@ body{font-family:Arial,sans-serif;display:flex;flex-direction:column;}
 .date-label{font-size:8px;color:rgba(255,255,255,.5);text-transform:uppercase;letter-spacing:.1em;}
 .date-val{font-size:13px;font-weight:700;color:#fff;margin-top:1px;}
 .clock-block{background:rgba(0,0,0,.2);border:1px solid rgba(255,255,255,.15);border-radius:5px;padding:4px 12px;text-align:center;}
-.clock{font-size:14px;font-weight:700;color:#ECB731;font-variant-numeric:tabular-nums;letter-spacing:.06em;}
+.clock{font-size:14px;font-weight:700;color:#d0d4d8;font-variant-numeric:tabular-nums;letter-spacing:.06em;}
 .clock-label{font-size:7px;color:rgba(255,255,255,.5);text-transform:uppercase;letter-spacing:.1em;margin-top:1px;}
 .legend{background:#eaebe9;border-bottom:1px solid #d8dad8;padding:4px 20px;display:flex;align-items:center;gap:16px;flex-shrink:0;}
 .leg{display:flex;align-items:center;gap:5px;font-size:9px;color:#656565;}
@@ -65,11 +65,6 @@ body{font-family:Arial,sans-serif;display:flex;flex-direction:column;}
 .conf-section{margin-top:10px;border-top:1px dashed #c8cac8;padding-top:7px;}
 .conf-hdr{font-size:7.5px;font-weight:700;color:#A39161;text-transform:uppercase;letter-spacing:.1em;margin-bottom:2px;}
 .conf-sub{font-size:7px;color:#979797;margin-bottom:3px;}
-.stats{margin-top:auto;display:flex;flex-direction:column;gap:3px;padding-top:10px;border-top:1px solid #d8dad8;}
-.stat-row{display:flex;align-items:center;justify-content:space-between;padding:4px 9px;background:#fff;border-radius:4px;border:1px solid #d8dad8;}
-.stat-label{font-size:8px;color:#979797;text-transform:uppercase;letter-spacing:.06em;}
-.stat-val{font-size:16px;font-weight:700;}
-.sv-occ{color:#00557E;}.sv-avail{color:#4a8a4a;}.sv-total{color:#A39161;}
 #right .r{min-height:28px;}
 #right .r-num{width:24px;font-size:10px;}
 #right .r-name{font-size:9.5px;}
@@ -130,7 +125,6 @@ body{font-family:Arial,sans-serif;display:flex;flex-direction:column;}
       <div class="conf-sub">→ Pasillo Derecho</div>
       <div id="conf"></div>
     </div>
-    <div class="stats" id="stats"></div>
   </div>
   <div class="col-divider"></div>
   <div class="col">
@@ -148,7 +142,7 @@ function getStatus(am,pm){if(!am&&!pm)return'avail';if(am&&pm&&am===pm)return'oc
 function simpleCard(num,name,status){const a=status==='avail';return`<div class="r"><div class="r-num ${a?'rn-avail':'rn-occ'}">${num}</div><div class="r-name ${a?'avail':'occ'}">${a?'Disponible':name}</div><div class="r-bar ${a?'rb-avail':'rb-occ'}"></div></div>`;}
 function splitCard(num,am,pm){const aA=!am,pA=!pm;return`<div class="r-split"><div class="rs-top"><div class="rs-num">${num}</div><div class="rs-lbl">Horario dividido</div></div><div class="rs-shifts"><div class="rs-row"><div class="rs-tag rt-mat">Mañana</div><div class="rs-sep"></div><div class="rs-val ${aA?'avail':'occ'}"><div class="rs-dot ${aA?'rd-avail':'rd-occ'}"></div>${aA?'Disponible':am}</div></div><div class="rs-row"><div class="rs-tag rt-ves">Tarde</div><div class="rs-sep"></div><div class="rs-val ${pA?'avail':'occ'}"><div class="rs-dot ${pA?'rd-avail':'rd-occ'}"></div>${pA?'Disponible':pm}</div></div></div></div>`;}
 function renderRoom(id,data){const num=DISPLAY_NUM[id]??id.replace('CDE-Sala','');const am=data?.am??null;const pm=data?.pm??null;const s=getStatus(am,pm);if(s==='avail')return simpleCard(num,null,'avail');if(s==='occ')return simpleCard(num,am,'occ');return splitCard(num,am,pm);}
-function renderAll(data){const salones=data.salones??{};document.getElementById('hdr-date').textContent=data.fecha??'—';['izquierdo','principal','derecho','conferencias'].forEach(p=>{const ids=PASILLO_ORDER[p];const t=p==='izquierdo'?'left':p==='principal'?'center':p==='conferencias'?'conf':'right';document.getElementById(t).innerHTML=ids.map(id=>renderRoom(id,salones[id])).join('');});const all=Object.values(salones);const occ=all.filter(s=>s.am||s.pm).length;const avail=all.filter(s=>!s.am&&!s.pm).length;document.getElementById('stats').innerHTML=`<div class="stat-row"><div class="stat-label">Ocupados</div><div class="stat-val sv-occ">${occ}</div></div><div class="stat-row"><div class="stat-label">Disponibles</div><div class="stat-val sv-avail">${avail}</div></div><div class="stat-row"><div class="stat-label">Total</div><div class="stat-val sv-total">${all.length}</div></div>`;document.getElementById('last-update').textContent=new Date().toLocaleTimeString('es-DO',{hour:'2-digit',minute:'2-digit'});}
+function renderAll(data){const salones=data.salones??{};document.getElementById('hdr-date').textContent=data.fecha??'—';['izquierdo','principal','derecho','conferencias'].forEach(p=>{const ids=PASILLO_ORDER[p];const t=p==='izquierdo'?'left':p==='principal'?'center':p==='conferencias'?'conf':'right';document.getElementById(t).innerHTML=ids.map(id=>renderRoom(id,salones[id])).join('');});document.getElementById('last-update').textContent=new Date().toLocaleTimeString('es-DO',{hour:'2-digit',minute:'2-digit'});}
 async function fetchData(){try{const res=await fetch('https://dsanzmbarrick.github.io/barrickacademy-calendar/data.json?t='+Date.now());const data=await res.json();renderAll(data);}catch(e){console.error(e);}}
 function tick(){document.getElementById('clk').textContent=new Date().toLocaleTimeString('es-DO',{hour:'2-digit',minute:'2-digit',second:'2-digit'});}
 tick();setInterval(tick,1000);fetchData();setInterval(fetchData,5*60*1000);
