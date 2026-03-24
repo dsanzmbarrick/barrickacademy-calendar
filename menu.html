@@ -70,9 +70,9 @@ body{
   gap:12px;flex-wrap:wrap;
 }
 .brand{display:flex;align-items:center;gap:14px;}
-.header-logo{height:clamp(34px,4vw,46px);width:auto;border-radius:6px;flex-shrink:0;}
-.brand-name{font-family:'Sora',sans-serif;font-size:clamp(11px,1.4vw,14px);font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--dorado);line-height:1;}
-.brand-sub{font-size:clamp(10px,1.1vw,11px);color:rgba(255,255,255,.4);margin-top:3px;letter-spacing:.04em;}
+.header-logo{height:clamp(44px,5vw,58px);width:auto;border-radius:7px;flex-shrink:0;}
+.brand-name{font-family:'Sora',sans-serif;font-size:clamp(13px,1.7vw,17px);font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--dorado);line-height:1;}
+.brand-sub{font-size:clamp(10px,1.1vw,12px);color:rgba(255,255,255,.55);margin-top:3px;letter-spacing:.04em;}
 
 .lang-wrap{display:flex;align-items:center;gap:6px;flex-shrink:0;}
 .lang-label{font-size:10px;color:rgba(255,255,255,.35);letter-spacing:.08em;text-transform:uppercase;}
@@ -218,7 +218,7 @@ body{
 .footer{
   padding:clamp(14px,2vw,20px) clamp(20px,5vw,48px) clamp(18px,2.5vw,28px);
   text-align:center;font-size:11px;
-  color:rgba(255,255,255,.2);letter-spacing:.04em;
+  color:rgba(255,255,255,.55);letter-spacing:.04em;
 }
 
 /* ── MAPA FULLSCREEN ── */
@@ -248,6 +248,70 @@ body{
 .mph-sub{font-size:13px;color:rgba(255,255,255,.3);max-width:340px;line-height:1.7;}
 .mph-sub code{background:rgba(255,255,255,.1);padding:2px 7px;border-radius:4px;font-family:monospace;color:var(--dorado);font-size:12px;}
 .map-hint{flex-shrink:0;padding:9px;text-align:center;font-size:11px;color:rgba(255,255,255,.25);background:var(--azul-dark);border-top:1px solid rgba(255,255,255,.07);}
+
+/* DAMSTRA */
+.damstra-wrap{position:relative;}
+.damstra-btn{
+  display:flex;align-items:center;gap:7px;
+  background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.15);
+  color:rgba(255,255,255,.75);padding:7px 16px;border-radius:24px;
+  font-family:'Sora',sans-serif;font-size:11px;font-weight:700;letter-spacing:.06em;
+  cursor:pointer;transition:var(--transition);white-space:nowrap;
+}
+.damstra-btn:hover{background:rgba(255,255,255,.14);color:#fff;}
+.damstra-btn svg{width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;transition:transform .2s ease;}
+.damstra-btn.open svg{transform:rotate(180deg);}
+.damstra-dropdown{
+  position:absolute;top:calc(100% + 8px);right:0;
+  background:var(--azul-dark);border:1px solid rgba(255,255,255,.15);
+  border-radius:12px;overflow:hidden;
+  box-shadow:0 8px 32px rgba(0,0,0,.4);
+  min-width:190px;
+  opacity:0;visibility:hidden;transform:translateY(-6px);
+  transition:opacity .2s ease,visibility .2s ease,transform .2s ease;
+  z-index:200;
+}
+.damstra-dropdown.open{opacity:1;visibility:visible;transform:translateY(0);}
+.damstra-option{
+  display:flex;align-items:center;gap:10px;
+  padding:12px 16px;cursor:pointer;
+  font-family:'DM Sans',sans-serif;font-size:12px;font-weight:500;
+  color:rgba(255,255,255,.8);transition:background .15s ease;
+  text-decoration:none;border:none;background:transparent;width:100%;text-align:left;
+}
+.damstra-option:hover{background:rgba(255,255,255,.08);color:#fff;}
+.damstra-option svg{width:14px;height:14px;fill:none;stroke:var(--dorado);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0;}
+.damstra-divider{height:1px;background:rgba(255,255,255,.08);margin:0;}
+
+/* PDF VIEWER */
+.pdf-overlay{
+  position:fixed;inset:0;z-index:999;
+  background:rgba(0,0,0,.85);
+  display:flex;flex-direction:column;
+  opacity:0;visibility:hidden;
+  transition:opacity .3s ease,visibility .3s ease;
+}
+.pdf-overlay.open{opacity:1;visibility:visible;}
+.pdf-topbar{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:12px 20px;background:var(--azul-dark);
+  flex-shrink:0;border-bottom:1px solid rgba(255,255,255,.1);
+}
+.pdf-title{font-family:'Sora',sans-serif;font-size:13px;font-weight:600;color:var(--blanco);}
+.pdf-close{
+  width:34px;height:34px;border-radius:8px;
+  background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);
+  color:var(--blanco);cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  transition:var(--transition);
+}
+.pdf-close:hover{background:rgba(255,255,255,.25);}
+.pdf-close svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round;}
+.pdf-frame{flex:1;border:none;background:#525659;}
+@media(max-width:600px){
+  .damstra-btn span{display:none;}
+  .damstra-dropdown{right:0;left:auto;}
+}
 
 /* ── TABLET ── */
 @media(max-width:900px){
@@ -291,6 +355,24 @@ body{
         <button class="lang-btn" data-lang="en">EN</button>
       </div>
     </div>
+    <div class="damstra-wrap">
+      <button class="damstra-btn" id="damstra-btn">
+        <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        <span data-i18n="damstra_label">Guía Damstra</span>
+        <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <div class="damstra-dropdown" id="damstra-dropdown">
+        <button class="damstra-option" onclick="openPDF('https://dsanzmbarrick.github.io/barrickacademy-calendar/Guide%20Damstra%20LogIn.pdf','Damstra LogIn')">
+          <svg viewBox="0 0 24 24"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
+          Damstra LogIn
+        </button>
+        <div class="damstra-divider"></div>
+        <button class="damstra-option" onclick="openPDF('https://dsanzmbarrick.github.io/barrickacademy-calendar/Guide%20Damstra%20Refresher.pdf','Damstra Learning')">
+          <svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+          Damstra Learning
+        </button>
+      </div>
+    </div>
   </header>
 
   <div class="hero">
@@ -323,7 +405,7 @@ body{
             <svg viewBox="0 0 24 24"><path d="M9 20l-5.447-2.724A1 1 0 0 1 3 16.382V5.618a1 1 0 0 1 1.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0 0 21 18.382V7.618a1 1 0 0 0-1.447-.894L15 9m0 8V9m0 0L9 7"/></svg>
           </div>
           <div class="card-label" data-i18n="card_map_label">Ubicación de salones</div>
-          <div class="card-title" data-i18n="card_map_title_html">Mapa<br>del CDE</div>
+          <div class="card-title" data-i18n="card_map_title_html">Mapa de<br>Barrick Academy</div>
           <div class="card-desc" data-i18n="card_map_desc">Ver el plano del Centro de Entrenamiento con la ubicación exacta de cada pasillo y salón.</div>
           <div class="card-arrow">
             <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
@@ -373,11 +455,22 @@ body{
   <div class="map-hint" data-i18n="map_hint">Toca la imagen para hacer zoom · Pellizca para ampliar en móvil</div>
 </div>
 
+<!-- PDF VIEWER -->
+<div class="pdf-overlay" id="pdf-overlay">
+  <div class="pdf-topbar">
+    <div class="pdf-title" id="pdf-title">Documento</div>
+    <button class="pdf-close" id="pdf-close">
+      <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+  </div>
+  <iframe class="pdf-frame" id="pdf-frame" src=""></iframe>
+</div>
+
 <script>
 // ── TRADUCCIONES ──
 const T = {
   es: {
-    brand_sub:           "Centro de Entrenamiento CDE",
+    brand_sub:           "Programación de Salones",
     lang_label:          "Idioma",
     hero_tag:            "Pueblo Viejo — Sistema de Capacitaciones",
     hero_title_html:     "¿Qué deseas<br><span>consultar?</span>",
@@ -386,19 +479,20 @@ const T = {
     card_cal_title_html: "Calendario<br>Semanal",
     card_cal_desc:       "Ver todos los salones programados durante la semana, filtrar por día, turno o entrenamiento.",
     card_map_label:      "Ubicación de salones",
-    card_map_title_html: "Mapa<br>del CDE",
+    card_map_title_html: "Mapa de<br>Barrick Academy",
     card_map_desc:       "Ver el plano del Centro de Entrenamiento con la ubicación exacta de cada pasillo y salón.",
-    footer:              "Barrick Academy · Pueblo Viejo · Sistema de Programación de Salones",
-    map_title:           "Mapa del CDE — Barrick Academy",
+    footer:              "Barrick Academy · Sistemas de Entrenamientos",
+    map_title:           "Mapa de Barrick Academy",
     map_sub:             "Centro de Entrenamiento · Pueblo Viejo",
     map_zoom:            "Zoom",
     map_download:        "Descargar",
     map_ph_title:        "Mapa no disponible aún",
     map_ph_sub:          "Sube el archivo <code>mapa_cde.png</code> a la carpeta en GitHub.",
     map_hint:            "Toca la imagen para hacer zoom · Pellizca para ampliar en móvil",
+    damstra_label:       "Guía Damstra",
   },
   en: {
-    brand_sub:           "Training Center CDE",
+    brand_sub:           "Room Scheduling",
     lang_label:          "Language",
     hero_tag:            "Pueblo Viejo — Training System",
     hero_title_html:     "What do you want<br><span>to look up?</span>",
@@ -407,16 +501,17 @@ const T = {
     card_cal_title_html: "Weekly<br>Calendar",
     card_cal_desc:       "See all rooms scheduled for the week, filter by day, shift, or training.",
     card_map_label:      "Room locations",
-    card_map_title_html: "CDE<br>Map",
+    card_map_title_html: "Barrick Academy<br>Map",
     card_map_desc:       "View the Training Center floor plan with the exact location of each hallway and room.",
-    footer:              "Barrick Academy · Pueblo Viejo · Room Scheduling System",
-    map_title:           "CDE Map — Barrick Academy",
+    footer:              "Barrick Academy · Training Systems",
+    map_title:           "Barrick Academy Map",
     map_sub:             "Training Center · Pueblo Viejo",
     map_zoom:            "Zoom",
     map_download:        "Download",
     map_ph_title:        "Map not available yet",
     map_ph_sub:          "Upload the file <code>mapa_cde.png</code> to the GitHub repository folder.",
     map_hint:            "Tap the image to zoom · Pinch to enlarge on mobile",
+    damstra_label:       "Damstra Guide",
   }
 };
 
@@ -428,7 +523,12 @@ const SAFETY_PHRASES = {
     "Más controles, menos riesgos",
     "Soy responsable de detener trabajos inseguros",
     "Más revisión previa, menos incidentes",
-    "Un equipo, una misión"
+    "Un equipo, una misión",
+    "Camino a Cero Riesgos",
+    "Si lo veo, me empodero y lo resuelvo",
+    "Yo actúo como dueño",
+    "Tu seguridad empieza con el descanso",
+    "La seguridad comienza en el aquí y ahora"
   ],
   en: [
     "Stop, think and act",
@@ -436,7 +536,12 @@ const SAFETY_PHRASES = {
     "More controls, fewer risks",
     "I am responsible for stopping unsafe work",
     "More prior review, fewer incidents",
-    "One team, one mission"
+    "One team, one mission",
+    "Road to Zero Risks",
+    "If I see it, I own it and resolve it",
+    "I act like an owner",
+    "Your safety starts with rest",
+    "Safety starts here and now"
   ]
 };
 
@@ -460,6 +565,46 @@ function updatePhrase(animate = true){
 
 // Change phrase every 6 seconds
 setInterval(()=> updatePhrase(true), 6000);
+
+// ── DAMSTRA DROPDOWN ──
+const damstraBtn = document.getElementById('damstra-btn');
+const damstraDD  = document.getElementById('damstra-dropdown');
+
+damstraBtn.addEventListener('click', (e) => {
+  e.stopPropagation();
+  const open = damstraDD.classList.toggle('open');
+  damstraBtn.classList.toggle('open', open);
+});
+document.addEventListener('click', () => {
+  damstraDD.classList.remove('open');
+  damstraBtn.classList.remove('open');
+});
+
+// ── PDF VIEWER ──
+const pdfOverlay = document.getElementById('pdf-overlay');
+const pdfFrame   = document.getElementById('pdf-frame');
+const pdfTitle   = document.getElementById('pdf-title');
+
+function openPDF(url, title) {
+  // Use Google Docs viewer as fallback for GitHub PDFs
+  const viewUrl = 'https://docs.google.com/viewer?url=' + encodeURIComponent(url) + '&embedded=true';
+  pdfFrame.src = viewUrl;
+  pdfTitle.textContent = title;
+  pdfOverlay.classList.add('open');
+  damstraDD.classList.remove('open');
+  damstraBtn.classList.remove('open');
+}
+document.getElementById('pdf-close').addEventListener('click', () => {
+  pdfOverlay.classList.remove('open');
+  pdfFrame.src = '';
+});
+document.addEventListener('keydown', e => {
+  if(e.key === 'Escape') {
+    pdfOverlay.classList.remove('open');
+    pdfFrame.src = '';
+    damstraDD.classList.remove('open');
+  }
+});
 
 let lang = localStorage.getItem('ba_lang') || 'es';
 
