@@ -95,6 +95,8 @@ body{
   font-size:clamp(10px,1.1vw,11px);font-weight:600;letter-spacing:.1em;text-transform:uppercase;
   color:var(--dorado-lt);margin-bottom:clamp(16px,2.5vw,24px);
 }
+#safety-phrase{transition:opacity .65s ease;}
+#safety-phrase.fade-out{opacity:0;}
 .hero-tag-dot{width:6px;height:6px;border-radius:50%;background:var(--dorado);animation:blink 2s ease infinite;}
 @keyframes blink{0%,100%{opacity:1;}50%{opacity:.3;}}
 
@@ -294,7 +296,7 @@ body{
   <div class="hero">
     <div class="hero-tag">
       <div class="hero-tag-dot"></div>
-      <span data-i18n="hero_tag">Pueblo Viejo — Sistema de Capacitaciones</span>
+      <span id="safety-phrase">Pueblo Viejo — Sistema de Capacitaciones</span>
     </div>
     <h1 class="hero-title" data-i18n="hero_title_html">¿Qué deseas<br><span>consultar?</span></h1>
     <p class="hero-sub" data-i18n="hero_sub">Selecciona una opción para ver la programación semanal de salones o el mapa del CDE.</p>
@@ -418,6 +420,47 @@ const T = {
   }
 };
 
+// ── FRASES DE SEGURIDAD ──
+const SAFETY_PHRASES = {
+  es: [
+    "Para, piensa y actúa",
+    "Analiza antes de actuar, evalúa el riesgo y verifica los controles",
+    "Más controles, menos riesgos",
+    "Soy responsable de detener trabajos inseguros",
+    "Más revisión previa, menos incidentes",
+    "Un equipo, una misión"
+  ],
+  en: [
+    "Stop, think and act",
+    "Analyze before acting, evaluate the risk and verify the controls",
+    "More controls, fewer risks",
+    "I am responsible for stopping unsafe work",
+    "More prior review, fewer incidents",
+    "One team, one mission"
+  ]
+};
+
+let phraseIndex = Math.floor(Math.random() * SAFETY_PHRASES.es.length);
+
+function updatePhrase(animate = true){
+  const el = document.getElementById('safety-phrase');
+  if(!el) return;
+  const phrases = SAFETY_PHRASES[lang] || SAFETY_PHRASES.es;
+  if(animate){
+    el.classList.add('fade-out');
+    setTimeout(()=>{
+      phraseIndex = (phraseIndex + 1) % phrases.length;
+      el.textContent = phrases[phraseIndex];
+      el.classList.remove('fade-out');
+    }, 650);
+  } else {
+    el.textContent = phrases[phraseIndex];
+  }
+}
+
+// Change phrase every 6 seconds
+setInterval(()=> updatePhrase(true), 6000);
+
 let lang = localStorage.getItem('ba_lang') || 'es';
 
 function applyLang(l){
@@ -431,6 +474,7 @@ function applyLang(l){
   document.querySelectorAll('.lang-btn').forEach(b =>
     b.classList.toggle('active', b.dataset.lang === l)
   );
+  updatePhrase(false); // update phrase language immediately
 }
 
 document.querySelectorAll('.lang-btn').forEach(btn =>
@@ -438,6 +482,7 @@ document.querySelectorAll('.lang-btn').forEach(btn =>
 );
 
 applyLang(lang);
+updatePhrase(false); // show phrase on load in correct language
 
 // ── MAPA ──
 const mapView = document.getElementById('map-view');
