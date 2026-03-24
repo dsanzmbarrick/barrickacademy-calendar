@@ -185,7 +185,7 @@ body{
 .shift-content{flex:1;border-radius:5px;padding:6px 9px;display:flex;align-items:center;font-size:clamp(10px,1.2vw,11.5px);line-height:1.35;}
 .shift-content.occupied{background:var(--gris-100);color:var(--gris-900);font-weight:500;}
 .shift-content.available{background:var(--verde-light);color:var(--verde);font-style:italic;font-size:10.5px;}
-.shift-content.available::before{content:"✓ ";}
+.shift-content.available::before{content:"✓";margin-right:5px;}
 .highlight{background:rgba(255,220,0,.35);border-radius:2px;padding:0 1px;}
 
 .empty-state{text-align:center;padding:clamp(40px,6vw,60px) 24px;}
@@ -283,7 +283,7 @@ body{
 
     <!-- RIGHT: nav buttons + lang -->
     <div class="header-right">
-      <a href="menu.html" class="nav-btn nav-btn-home" data-i18n="nav_home">Inicio</a>
+      <a href="menu.html" class="nav-btn nav-btn-home"><svg style="width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;" viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg> <span data-i18n="nav_home">Inicio</span></a>
       <button class="nav-btn nav-btn-map" id="open-map" data-i18n="nav_map">Mapa</button>
       <div class="lang-toggle-cal">
         <button class="lang-cal-btn active" data-lang="es">ES</button>
@@ -346,7 +346,7 @@ body{
     <span id="last-update-text">Actualizando...</span>
   </div>
   <br>
-  <strong>Barrick Academy</strong> — Calendario Semanal de Salones &nbsp;·&nbsp; Se actualiza automáticamente
+  <strong>Barrick Academy</strong> — Sistemas de Entrenamiento
 </footer>
 
 <!-- MAP MODAL -->
@@ -389,17 +389,17 @@ const LANG = {
     f_shift:'Turno', f_all:'Todos', f_am:'Mañana', f_pm:'Tarde',
     f_room:'Salón', f_room_all:'Todos los salones',
     f_search_ph:'Buscar entrenamiento...', f_clear:'Limpiar',
-    tab_all:'↩ Todos', today_tag:'Hoy',
+    tab_all:'Semana Completa', today_tag:'Hoy',
     occ:'ocupados', avail:'disponibles',
     available:'Disponible', no_results:'Sin resultados para los filtros aplicados en este día',
     empty_title:'No se encontraron resultados',
     empty_sub:'Prueba ajustando los filtros o el texto de búsqueda',
     loading:'Cargando programación...',
     last_update:'Actualizado: ', demo:'Datos de demostración',
-    footer_text:'Calendario Semanal de Salones &nbsp;·&nbsp; Se actualiza automáticamente',
+    footer_text:'Sistemas de Entrenamiento',
     results_single:'resultado', results_plural:'resultados',
     pasillo_izquierdo:'Pasillo Izquierdo', pasillo_derecho:'Pasillo Derecho',
-    pasillo_principal:'Pasillo Principal', pasillo_conferencias:'Sala de Conferencias',
+    pasillo_principal:'Pasillo Principal', pasillo_conferencias:'Pasillo Derecho',
     map_modal_title:'Mapa de Salones — CDE Barrick Academy',
     map_hint:'Toca la imagen para ampliar · Pellizca para hacer zoom',
     map_download:'Descargar mapa', map_ph:'Mapa no cargado',
@@ -421,17 +421,17 @@ const LANG = {
     f_shift:'Shift', f_all:'All', f_am:'Morning', f_pm:'Afternoon',
     f_room:'Room', f_room_all:'All rooms',
     f_search_ph:'Search training...', f_clear:'Clear',
-    tab_all:'↩ All', today_tag:'Today',
+    tab_all:'Full Week', today_tag:'Today',
     occ:'occupied', avail:'available',
     available:'Available', no_results:'No results for the selected filters on this day',
     empty_title:'No results found',
     empty_sub:'Try adjusting the filters or search text',
     loading:'Loading schedule...',
     last_update:'Updated: ', demo:'Sample data',
-    footer_text:'Weekly Room Schedule &nbsp;·&nbsp; Updates automatically',
+    footer_text:'Training Systems',
     results_single:'result', results_plural:'results',
     pasillo_izquierdo:'Left Hallway', pasillo_derecho:'Right Hallway',
-    pasillo_principal:'Main Hallway', pasillo_conferencias:'Conference Room',
+    pasillo_principal:'Main Hallway', pasillo_conferencias:'Right Hallway',
     map_modal_title:'Room Map — CDE Barrick Academy',
     map_hint:'Tap image to zoom · Pinch to enlarge on mobile',
     map_download:'Download map', map_ph:'Map not loaded',
@@ -608,7 +608,7 @@ function salonLabel(id){
   const num = parseInt(id.replace('CDE-Sala',''));
   const isConf = id === 'CDE-Sala16';
   if(isConf){
-    return lang==='en' ? `Room ${num} — Conference` : `Salón ${num} — Conferencia`;
+    return lang==='en' ? `Room ${num} — Right Hallway` : `Salón ${num} — Pasillo Derecho`;
   }
   return lang==='en' ? `Room ${num}` : `Salón ${num}`;
 }
