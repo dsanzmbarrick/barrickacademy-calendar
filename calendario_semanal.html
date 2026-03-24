@@ -98,10 +98,7 @@ body{
 .nav-btn-home:hover{background:rgba(163,145,97,.38);}
 .nav-btn-map{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.2);color:var(--blanco);}
 .nav-btn-map:hover{background:rgba(255,255,255,.2);}
-.lang-toggle-cal{display:flex;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:20px;padding:2px;gap:2px;}
-.lang-cal-btn{padding:5px 12px;border-radius:16px;border:none;font-family:'Sora',sans-serif;font-size:11px;font-weight:700;letter-spacing:.05em;cursor:pointer;transition:var(--transition);background:transparent;color:rgba(255,255,255,.45);}
-.lang-cal-btn.active{background:var(--dorado);color:#fff;}
-.lang-cal-btn:not(.active):hover{background:rgba(255,255,255,.12);color:rgba(255,255,255,.8);}
+
 
 /* ── STATS BAR ── */
 .stats-bar{background:var(--blanco);border-bottom:1px solid var(--gris-200);overflow-x:auto;-webkit-overflow-scrolling:touch;}
@@ -141,6 +138,10 @@ body{
 .main{max-width:1400px;margin:0 auto;padding:clamp(14px,2.5vw,24px) clamp(12px,3vw,24px) clamp(20px,3vw,32px);}
 
 .day-section{margin-bottom:clamp(20px,3vw,32px);animation:fadeUp .35s ease both;}
+.day-section.past-day{opacity:.45;filter:grayscale(25%);}
+.day-section.past-day .salon-card{background:var(--gris-100);}
+.stat-day.past-day .stat-name{color:var(--gris-500);}
+.stat-day.past-day .pill-occ{background:var(--gris-300);color:var(--gris-700);}
 @keyframes fadeUp{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
 
 .day-header{display:flex;align-items:center;gap:10px;margin-bottom:clamp(12px,2vw,16px);flex-wrap:wrap;}
@@ -242,7 +243,6 @@ body{
   .header-title{font-size:11px;}
   .nav-btn{font-size:10px;padding:5px 10px;}
   .week-label{font-size:12px;}
-  .lang-cal-btn{padding:4px 9px;font-size:10px;}
   .filters{top:58px;}
   .filter-label{display:none;}
   .search-wrap{min-width:110px;}
@@ -285,10 +285,6 @@ body{
     <div class="header-right">
       <a href="menu.html" class="nav-btn nav-btn-home"><svg style="width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;" viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg> <span data-i18n="nav_home">Inicio</span></a>
       <button class="nav-btn nav-btn-map" id="open-map" data-i18n="nav_map">Mapa</button>
-      <div class="lang-toggle-cal">
-        <button class="lang-cal-btn active" data-lang="es">ES</button>
-        <button class="lang-cal-btn" data-lang="en">EN</button>
-      </div>
     </div>
 
   </div>
@@ -463,9 +459,7 @@ function applyLangUI(){
     const key = el.dataset.i18nPh;
     if(LANG[lang][key] !== undefined) el.placeholder = LANG[lang][key];
   });
-  document.querySelectorAll('.lang-cal-btn').forEach(b =>
-    b.classList.toggle('active', b.dataset.lang === lang)
-  );
+
   document.getElementById('filter-salon').options[0].textContent = t('f_room_all');
   document.querySelector('[data-shift="all"]').textContent = t('f_all');
   document.querySelector('[data-shift="am"]').textContent  = t('f_am');
@@ -634,21 +628,16 @@ function buildStats(){
   const si=document.getElementById('stats-inner');
   si.innerHTML='';
 
-  const allTab=document.createElement('div');
-  allTab.className='stat-day'+(filterDay==='all'?' active':'');
-  allTab.dataset.day='all';
-  allTab.innerHTML=`<span class="stat-name" style="font-size:11px">${t('tab_all')}</span>`;
-  allTab.addEventListener('click',()=>setDay('all'));
-  si.appendChild(allTab);
-
   Object.entries(DATA.dias).forEach(([nombre,dia])=>{
     const s=dia.salones||{};
     const total=Object.keys(s).length;
     let occ=0;
     Object.values(s).forEach(r=>{if(r.am||r.pm)occ++;});
     const isToday=nombre===getTodayDayName();
+    // detect past days
+    const isPast = dia.fecha ? new Date(dia.fecha+'T23:59:59') < new Date() && !isToday : false;
     const tab=document.createElement('div');
-    tab.className='stat-day'+(filterDay===nombre?' active':'')+(isToday?' today':'');
+    tab.className='stat-day'+(filterDay===nombre?' active':'')+(isToday?' today':'')+(isPast?' past-day':'');
     tab.dataset.day=nombre;
     // Date: solo dia y mes, sin repetir el nombre del dia
     const fecha=dia.fecha
@@ -668,6 +657,14 @@ function buildStats(){
     tab.addEventListener('click',()=>setDay(nombre));
     si.appendChild(tab);
   });
+
+  // "Semana Completa" tab at the END
+  const allTab=document.createElement('div');
+  allTab.className='stat-day'+(filterDay==='all'?' active':'');
+  allTab.dataset.day='all';
+  allTab.innerHTML=`<span class="stat-name" style="font-size:11px">${t('tab_all')}</span>`;
+  allTab.addEventListener('click',()=>setDay('all'));
+  si.appendChild(allTab);
 }
 
 // ─── SET DAY ───
@@ -725,7 +722,8 @@ function renderAll(){
     const dayFull = tDay(nombre);
 
     if(!anyCards && filterDay!=='all'){
-      sections.push(`<div class="day-section" style="animation-delay:${idx*60}ms">
+      const isPastDayEmpty = dia.fecha ? new Date(dia.fecha+'T23:59:59') < new Date() && !isToday : false;
+      sections.push(`<div class="day-section${isPastDayEmpty?' past-day':''}" style="animation-delay:${idx*60}ms">
         <div class="day-header">
           <span class="day-full-name">${dayFull}</span>
           <span class="day-date">${fechaFmt}</span>
@@ -785,7 +783,8 @@ function renderAll(){
     const occupied=Object.values(salones).filter(r=>r.am||r.pm).length;
     const total=Object.keys(salones).length;
 
-    sections.push(`<div class="day-section" style="animation-delay:${idx*60}ms">
+    const isPastDay = dia.fecha ? new Date(dia.fecha+'T23:59:59') < new Date() && !isToday : false;
+    sections.push(`<div class="day-section${isPastDay?' past-day':''}" style="animation-delay:${idx*60}ms">
       <div class="day-header">
         <span class="day-full-name">${dayFull}</span>
         <span class="day-date">${fechaFmt}</span>
@@ -892,18 +891,7 @@ document.getElementById('clear-btn').addEventListener('click',()=>{
   renderAll();updateURL();
 });
 
-// ─── LANGUAGE SWITCH ───
-document.querySelectorAll('.lang-cal-btn').forEach(btn=>{
-  btn.addEventListener('click',()=>{
-    lang=btn.dataset.lang;
-    localStorage.setItem('ba_lang',lang);
-    buildSalonSelect(); // rebuild room dropdown labels
-    applyLangUI();
-    buildStats();
-    renderAll();
-    updateLastUpdate();
-  });
-});
+
 
 // ─── MAP MODAL ───
 const overlay=document.getElementById('map-overlay');
