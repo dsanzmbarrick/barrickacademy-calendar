@@ -585,9 +585,14 @@ function init(){
   const params = new URLSearchParams(location.search);
   if(params.get('turno'))  filterShift = params.get('turno');
   if(params.get('buscar')){ filterText = params.get('buscar'); document.getElementById('search-input').value=filterText; }
-  // ALWAYS open on today — URL param overrides only if explicitly set
+  // SIEMPRE carga el día de hoy al entrar
   const todayName = getTodayDayName();
-  filterDay = params.get('dia') || todayName;
+  const diaParam = params.get('dia');
+  if(diaParam && diaParam !== 'hoy' && diaParam !== 'all' && diaParam !== 'today'){
+    filterDay = diaParam; // URL tiene un día específico (ej: ?dia=Lunes)
+  } else {
+    filterDay = todayName; // Sin parámetro, ?dia=hoy, ?dia=all → carga HOY
+  }
   buildSalonSelect();
   buildStats();
   renderAll();
