@@ -859,7 +859,9 @@ function updateLastUpdate(){
 // ─── UPDATE URL ───
 function updateURL(){
   const params=new URLSearchParams();
-  if(filterDay!=='all')   params.set('dia',filterDay);
+  const todayName=getTodayDayName();
+  // Only put dia in URL if it's NOT today (so coming back always loads today)
+  if(filterDay!=='all' && filterDay!==todayName) params.set('dia',filterDay);
   if(filterShift!=='all') params.set('turno',filterShift);
   if(filterSalon!=='all') params.set('salon',filterSalon);
   if(filterText)          params.set('buscar',filterText);
