@@ -35,7 +35,7 @@ body{font-family:Arial,sans-serif;display:flex;flex-direction:column;}
 .col-divider{background:#d8dad8;margin:0 10px;}
 .col{display:flex;flex-direction:column;}
 .col-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;padding-bottom:5px;border-bottom:2px solid #00557E;}
-.col-title{font-size:11px;font-weight:700;color:#00557E;text-transform:uppercase;letter-spacing:.1em;}
+.col-title{font-size:9.5px;font-weight:700;color:#00557E;text-transform:uppercase;letter-spacing:.1em;}
 .col-badge{font-size:8px;color:#fff;background:#A39161;padding:2px 7px;border-radius:2px;}
 .rooms{display:flex;flex-direction:column;gap:3px;}
 
@@ -44,7 +44,7 @@ body{font-family:Arial,sans-serif;display:flex;flex-direction:column;}
 .r-num{width:28px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;}
 .rn-occ{background:#00557E;color:#fff;}
 .rn-avail{background:#d8ead8;color:#4a8a4a;}
-.r-name{flex:1;padding:0 9px;display:flex;align-items:center;font-size:14px;line-height:1.3;}
+.r-name{flex:1;padding:0 9px;display:flex;align-items:center;font-size:16px;line-height:1.3;}
 .r-name.occ{color:#2a2a2a;}
 .r-name.avail{color:#4a8a4a;font-style:italic;}
 .r-bar{width:3px;flex-shrink:0;}
@@ -62,7 +62,7 @@ body{font-family:Arial,sans-serif;display:flex;flex-direction:column;}
 .rt-mat{background:#fdf6e8;color:#92600a;}
 .rt-ves{background:#eef0fa;color:#4a5e80;}
 .rs-sep{width:1px;background:#eaebe9;flex-shrink:0;}
-.rs-val{flex:1;padding:2px 9px;display:flex;align-items:center;font-size:14px;line-height:1.25;}
+.rs-val{flex:1;padding:2px 9px;display:flex;align-items:center;font-size:16px;line-height:1.25;}
 .rs-val.occ{color:#2a2a2a;}
 .rs-val.avail{color:#4a8a4a;font-style:italic;}
 .rs-dot{width:5px;height:5px;border-radius:50%;flex-shrink:0;margin-right:6px;}
@@ -73,13 +73,13 @@ body{font-family:Arial,sans-serif;display:flex;flex-direction:column;}
 .center-rooms{display:flex;flex-direction:column;gap:3px;width:100%;}
 .conf-section{margin-top:10px;border-top:1px dashed #c8cac8;padding-top:7px;}
 .conf-hdr{font-size:7.5px;font-weight:700;color:#A39161;text-transform:uppercase;letter-spacing:.1em;margin-bottom:2px;}
-.conf-sub{font-size:9px;color:#979797;margin-bottom:4px;}
+.conf-sub{font-size:7px;color:#979797;margin-bottom:3px;}
 
 /* STATS */
 
 /* QR CORNER */
 .qr-corner{
-  position:fixed;bottom:10px;left:10px;z-index:50;
+  position:fixed;bottom:10px;left:50%;transform:translateX(-50%);z-index:50;
 }
 .qr-card{
   background:#fff;
@@ -151,7 +151,7 @@ body{font-family:Arial,sans-serif;display:flex;flex-direction:column;}
   <div class="center-col">
     <div class="col-hdr">
       <div class="col-title">↑ Pasillo Principal</div>
-      <div class="col-badge">Salón 0 &amp; 7</div>
+      <div class="col-badge">Salón 7</div>
     </div>
     <div class="center-rooms" id="center"></div>
     <div class="conf-section">
@@ -164,7 +164,7 @@ body{font-family:Arial,sans-serif;display:flex;flex-direction:column;}
   <div class="col">
     <div class="col-hdr">
       <div class="col-title">Pasillo Derecho →</div>
-      <div class="col-badge">Salones 8 – 13</div>
+      <div class="col-badge">Salones 00 &amp; 8–13</div>
     </div>
     <div class="rooms" id="right"></div>
   </div>
@@ -182,7 +182,7 @@ body{font-family:Arial,sans-serif;display:flex;flex-direction:column;}
 </div>
 
 <script>
-const PASILLO_ORDER={izquierdo:["CDE-Sala01","CDE-Sala02","CDE-Sala03","CDE-Sala04","CDE-Sala05","CDE-Sala06"],principal:["CDE-Sala00","CDE-Sala07"],conferencias:["CDE-Sala16"],derecho:["CDE-Sala08","CDE-Sala09","CDE-Sala10","CDE-Sala11","CDE-Sala12","CDE-Sala13"]};
+const PASILLO_ORDER={izquierdo:["CDE-Sala01","CDE-Sala02","CDE-Sala03","CDE-Sala04","CDE-Sala05","CDE-Sala06"],principal:["CDE-Sala07"],conferencias:["CDE-Sala16"],derecho:["CDE-Sala00","CDE-Sala08","CDE-Sala09","CDE-Sala10","CDE-Sala11","CDE-Sala12","CDE-Sala13"]};
 const DISPLAY_NUM={"CDE-Sala00":"00","CDE-Sala01":"01","CDE-Sala02":"02","CDE-Sala03":"03","CDE-Sala04":"04","CDE-Sala05":"05","CDE-Sala06":"06","CDE-Sala07":"07","CDE-Sala08":"08","CDE-Sala09":"09","CDE-Sala10":"10","CDE-Sala11":"11","CDE-Sala12":"12","CDE-Sala13":"13","CDE-Sala16":"16"};
 function getStatus(am,pm){if(!am&&!pm)return'avail';if(am&&pm&&am===pm)return'occ';return'split';}
 function simpleCard(num,name,status){const a=status==='avail';return`<div class="r"><div class="r-num ${a?'rn-avail':'rn-occ'}">${num}</div><div class="r-name ${a?'avail':'occ'}">${a?'Disponible':name}</div><div class="r-bar ${a?'rb-avail':'rb-occ'}"></div></div>`;}
