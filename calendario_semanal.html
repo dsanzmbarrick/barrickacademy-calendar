@@ -529,7 +529,7 @@ const SAMPLE_DATA = {
       "CDE-Sala13": {"am":null,"pm":null,"pasillo":"derecho"},
       "CDE-Sala16": {"am":"Reunión de Seguridad Gerencial","pm":null,"pasillo":"conferencias"}
     }},
-    "Miércoles":{ "fecha": "2026-03-25", "salones": {
+    "Miercoles":{ "fecha": "2026-03-25", "salones": {
       "CDE-Sala00": {"am":"Inducción General Mina","pm":"Inducción General Mina","pasillo":"principal"},
       "CDE-Sala05": {"am":"Aprendices 2025-2027","pm":"Aprendices 2025-2027","pasillo":"izquierdo"},
       "CDE-Sala10": {"am":"Aprendices 2025-2027","pm":"Aprendices 2025-2027","pasillo":"derecho"},
@@ -553,7 +553,7 @@ const SAMPLE_DATA = {
       "CDE-Sala12": {"am":"Aprendices 2025-2027","pm":"Aprendices 2025-2027","pasillo":"derecho"},
       "CDE-Sala16": {"am":null,"pm":null,"pasillo":"conferencias"}
     }},
-    "Sábado":   { "fecha": "2026-03-28", "salones": {} },
+    "Sabado":   { "fecha": "2026-03-28", "salones": {} },
     "Domingo":  { "fecha": "2026-03-29", "salones": {} }
   }
 };
@@ -565,7 +565,8 @@ let filterDay='today_default', filterShift='all', filterSalon='all', filterText=
 const PASILLO_ORDER = ['principal','izquierdo','derecho','conferencias'];
 
 function getTodayDayName(){
-  const days=['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'];
+  // Without accents to match week.json keys from Office Script
+  const days=['Domingo','Lunes','Martes','Miercoles','Jueves','Viernes','Sabado'];
   return days[new Date().getDay()];
 }
 
