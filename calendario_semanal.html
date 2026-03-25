@@ -583,15 +583,11 @@ async function loadData(){
 // ─── INIT ───
 function init(){
   const params = new URLSearchParams(location.search);
-  if(params.get('dia') && params.get('dia')!=='all') filterDay = params.get('dia');
-  else filterDay = 'all'; // will be replaced by today below
   if(params.get('turno'))  filterShift = params.get('turno');
   if(params.get('buscar')){ filterText = params.get('buscar'); document.getElementById('search-input').value=filterText; }
-  // Always open on today's day (unless URL has ?dia= param)
-  if(!params.get('dia')){
-    const today=getTodayDayName();
-    filterDay = DATA.dias[today] ? today : 'all';
-  }
+  // ALWAYS open on today — URL param overrides only if explicitly set
+  const todayName = getTodayDayName();
+  filterDay = params.get('dia') || todayName;
   buildSalonSelect();
   buildStats();
   renderAll();
