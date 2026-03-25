@@ -560,7 +560,7 @@ const SAMPLE_DATA = {
 
 // ─── STATE ───
 let DATA = null;
-let filterDay='all', filterShift='all', filterSalon='all', filterText='';
+let filterDay='today_default', filterShift='all', filterSalon='all', filterText='';
 
 const PASILLO_ORDER = ['principal','izquierdo','derecho','conferencias'];
 
@@ -583,12 +583,14 @@ async function loadData(){
 // ─── INIT ───
 function init(){
   const params = new URLSearchParams(location.search);
-  if(params.get('dia'))    filterDay   = params.get('dia');
+  if(params.get('dia') && params.get('dia')!=='all') filterDay = params.get('dia');
+  else filterDay = 'all'; // will be replaced by today below
   if(params.get('turno'))  filterShift = params.get('turno');
   if(params.get('buscar')){ filterText = params.get('buscar'); document.getElementById('search-input').value=filterText; }
-  if(filterDay==='all'){
+  // Always open on today's day (unless URL has ?dia= param)
+  if(!params.get('dia')){
     const today=getTodayDayName();
-    if(DATA.dias[today]) filterDay=today;
+    filterDay = DATA.dias[today] ? today : 'all';
   }
   buildSalonSelect();
   buildStats();
@@ -699,7 +701,7 @@ function renderAll(){
     PASILLO_ORDER.forEach(p=>byPasillo[p]=[]);
 
     Object.entries(salones).forEach(([id,data])=>{
-      const p=data.pasillo||'otro';
+      const p = id==='CDE-Sala00' ? 'derecho' : (data.pasillo||'otro');
       if(filterSalon!=='all' && id!==filterSalon) return;
       let amVal = filterShift==='pm' ? null : data.am;
       let pmVal = filterShift==='am' ? null : data.pm;
