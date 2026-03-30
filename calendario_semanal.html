@@ -396,6 +396,7 @@ const LANG = {
     results_single:'resultado', results_plural:'resultados',
     pasillo_izquierdo:'Pasillo Izquierdo', pasillo_derecho:'Pasillo Derecho',
     pasillo_principal:'Pasillo Principal', pasillo_conferencias:'Pasillo Derecho',
+    pasillo_conferencias_group:'Salón de Conferencias',
     map_modal_title:'Mapa de Salones — CDE Barrick Academy',
     map_hint:'Toca la imagen para ampliar · Pellizca para hacer zoom',
     map_download:'Descargar mapa', map_ph:'Mapa no cargado',
@@ -428,6 +429,7 @@ const LANG = {
     results_single:'result', results_plural:'results',
     pasillo_izquierdo:'Left Hallway', pasillo_derecho:'Right Hallway',
     pasillo_principal:'Main Hallway', pasillo_conferencias:'Right Hallway',
+    pasillo_conferencias_group:'Conference Room',
     map_modal_title:'Room Map — CDE Barrick Academy',
     map_hint:'Tap image to zoom · Pinch to enlarge on mobile',
     map_download:'Download map', map_ph:'Map not loaded',
@@ -480,6 +482,7 @@ function applyLangUI(){
 }
 
 function getPasilloName(p){
+  // Used for card tag — conferencias shows "Pasillo Derecho"
   const map = {
     izquierdo: t('pasillo_izquierdo'),
     derecho:   t('pasillo_derecho'),
@@ -487,6 +490,12 @@ function getPasilloName(p){
     conferencias: t('pasillo_conferencias')
   };
   return map[p] || p;
+}
+
+function getPasilloGroupName(p){
+  // Used for section group header — conferencias shows "Salón de Conferencias"
+  if(p === 'conferencias') return t('pasillo_conferencias_group');
+  return getPasilloName(p);
 }
 
 // ─── SAMPLE DATA ───
@@ -606,7 +615,7 @@ function salonLabel(id){
   const num = parseInt(id.replace('CDE-Sala',''));
   const isConf = id === 'CDE-Sala16';
   if(isConf){
-    return lang==='en' ? `Room ${num} — Right Hallway` : `Salón ${num} — Pasillo Derecho`;
+    return lang==='en' ? `Room ${num} — Conference Room` : `Salón ${num} — Salón Conferencias`;
   }
   return lang==='en' ? `Room ${num}` : `Salón ${num}`;
 }
@@ -777,7 +786,7 @@ function renderAll(){
       pasillosHTML+=`<div class="pasillo-group">
         <div class="pasillo-label">
           <div class="pasillo-icon ${p}"></div>
-          <span class="pasillo-name">${getPasilloName(p)}</span>
+          <span class="pasillo-name">${getPasilloGroupName(p)}</span>
         </div>
         <div class="cards-grid">${cardsHTML}</div>
       </div>`;
