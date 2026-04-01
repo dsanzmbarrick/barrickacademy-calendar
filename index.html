@@ -189,8 +189,19 @@ function simpleCard(num,name,status){const a=status==='avail';return`<div class=
 function splitCard(num,am,pm){const aA=!am,pA=!pm;return`<div class="r-split"><div class="rs-top"><div class="rs-num">${num}</div><div class="rs-lbl">Horario dividido</div></div><div class="rs-shifts"><div class="rs-row"><div class="rs-tag rt-mat">Mañana</div><div class="rs-sep"></div><div class="rs-val ${aA?'avail':'occ'}"><div class="rs-dot ${aA?'rd-avail':'rd-occ'}"></div>${aA?'Disponible':am}</div></div><div class="rs-row"><div class="rs-tag rt-ves">Tarde</div><div class="rs-sep"></div><div class="rs-val ${pA?'avail':'occ'}"><div class="rs-dot ${pA?'rd-avail':'rd-occ'}"></div>${pA?'Disponible':pm}</div></div></div></div>`;}
 function renderRoom(id,data){const num=DISPLAY_NUM[id]??id.replace('CDE-Sala','');const am=data?.am??null;const pm=data?.pm??null;const s=getStatus(am,pm);if(s==='avail')return simpleCard(num,null,'avail');if(s==='occ')return simpleCard(num,am,'occ');return splitCard(num,am,pm);}
 function renderAll(data){const salones=data.salones??{};document.getElementById('hdr-date').textContent=data.fecha??'—';['izquierdo','principal','derecho','conferencias'].forEach(p=>{const ids=PASILLO_ORDER[p];const t=p==='izquierdo'?'left':p==='principal'?'center':p==='conferencias'?'conf':'right';document.getElementById(t).innerHTML=ids.map(id=>renderRoom(id,salones[id])).join('');});document.getElementById('last-update').textContent=new Date().toLocaleTimeString('es-DO',{hour:'2-digit',minute:'2-digit'});}
-async function fetchData(){try{const res=await fetch('https://dsanzmbarrick.github.io/barrickacademy-calendar/data.json?t='+Date.now());const data=await res.json();renderAll(data);}catch(e){console.error(e);}}
-function tick(){document.getElementById('clk').textContent=new Date().toLocaleTimeString('es-DO',{hour:'2-digit',minute:'2-digit',second:'2-digit'});}
+async function fetchData(){try{const res=await fetch('https://dsanzmbarrick.github.io/barrickacademy-calendar/data.json?t='+Date.now(),{cache:'no-store'});const data=await res.json();renderAll(data);}catch(e){console.error(e);}}
+// Track current date to detect midnight
+let _currentDay = new Date().toDateString();
+
+function tick(){
+  const now = new Date();
+  document.getElementById('clk').textContent = now.toLocaleTimeString('es-DO',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
+  // Midnight reload: if the day changed, reload the page so the TV always shows the correct day
+  const today = now.toDateString();
+  if(today !== _currentDay){
+    location.reload();
+  }
+}
 tick();setInterval(tick,1000);fetchData();setInterval(fetchData,5*60*1000);
 </script>
 
