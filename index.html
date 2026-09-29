@@ -134,8 +134,8 @@ body{font-family:Arial,sans-serif;display:flex;flex-direction:column;}
   <div class="leg"><div class="leg-dot ld-occ"></div>Ocupado</div>
   <div class="leg"><div class="leg-dot ld-avail"></div>Disponible</div>
   <div class="leg-sep"></div>
-  <div class="leg"><div class="leg-dot ld-mat"></div>Turno Matutino</div>
-  <div class="leg"><div class="leg-dot ld-ves"></div>Turno Vespertino</div>
+  <div class="leg"><div class="leg-dot ld-mat"></div>Turno en la mañana</div>
+  <div class="leg"><div class="leg-dot ld-ves"></div>Turno en la tarde</div>
   <div class="refresh">Última actualización: <span id="last-update">--</span>&nbsp;·&nbsp;Refresca cada 5 min</div>
 </div>
 
@@ -186,7 +186,7 @@ const PASILLO_ORDER={izquierdo:["CDE-Sala01","CDE-Sala02","CDE-Sala03","CDE-Sala
 const DISPLAY_NUM={"CDE-Sala00":"00","CDE-Sala01":"01","CDE-Sala02":"02","CDE-Sala03":"03","CDE-Sala04":"04","CDE-Sala05":"05","CDE-Sala06":"06","CDE-Sala07":"07","CDE-Sala08":"08","CDE-Sala09":"09","CDE-Sala10":"10","CDE-Sala11":"11","CDE-Sala12":"12","CDE-Sala13":"13","CDE-Sala16":"16"};
 function getStatus(am,pm){if(!am&&!pm)return'avail';if(am&&pm&&am===pm)return'occ';return'split';}
 function simpleCard(num,name,status){const a=status==='avail';return`<div class="r"><div class="r-num ${a?'rn-avail':'rn-occ'}">${num}</div><div class="r-name ${a?'avail':'occ'}">${a?'Disponible':name}</div><div class="r-bar ${a?'rb-avail':'rb-occ'}"></div></div>`;}
-function splitCard(num,am,pm){const aA=!am,pA=!pm;return`<div class="r-split"><div class="rs-top"><div class="rs-num">${num}</div><div class="rs-lbl">Horario dividido</div></div><div class="rs-shifts"><div class="rs-row"><div class="rs-tag rt-mat">Mañana</div><div class="rs-sep"></div><div class="rs-val ${aA?'avail':'occ'}"><div class="rs-dot ${aA?'rd-avail':'rd-occ'}"></div>${aA?'Disponible':am}</div></div><div class="rs-row"><div class="rs-tag rt-ves">Tarde</div><div class="rs-sep"></div><div class="rs-val ${pA?'avail':'occ'}"><div class="rs-dot ${pA?'rd-avail':'rd-occ'}"></div>${pA?'Disponible':pm}</div></div></div></div>`;}
+function splitCard(num,am,pm){const aA=!am,pA=!pm;return`<div class="r-split"><div class="rs-top"><div class="rs-num">${num}</div><div class="rs-lbl">Horario dividido</div></div><div class="rs-shifts"><div class="rs-row"><div class="rs-tag rt-mat">Matutino</div><div class="rs-sep"></div><div class="rs-val ${aA?'avail':'occ'}"><div class="rs-dot ${aA?'rd-avail':'rd-occ'}"></div>${aA?'Disponible':am}</div></div><div class="rs-row"><div class="rs-tag rt-ves">Vespertino</div><div class="rs-sep"></div><div class="rs-val ${pA?'avail':'occ'}"><div class="rs-dot ${pA?'rd-avail':'rd-occ'}"></div>${pA?'Disponible':pm}</div></div></div></div>`;}
 function renderRoom(id,data){const num=DISPLAY_NUM[id]??id.replace('CDE-Sala','');const am=data?.am??null;const pm=data?.pm??null;const s=getStatus(am,pm);if(s==='avail')return simpleCard(num,null,'avail');if(s==='occ')return simpleCard(num,am,'occ');return splitCard(num,am,pm);}
 function renderAll(data){const salones=data.salones??{};document.getElementById('hdr-date').textContent=data.fecha??'—';['izquierdo','principal','derecho','conferencias'].forEach(p=>{const ids=PASILLO_ORDER[p];const t=p==='izquierdo'?'left':p==='principal'?'center':p==='conferencias'?'conf':'right';document.getElementById(t).innerHTML=ids.map(id=>renderRoom(id,salones[id])).join('');});document.getElementById('last-update').textContent=new Date().toLocaleTimeString('es-DO',{hour:'2-digit',minute:'2-digit'});}
 async function fetchData(){try{const res=await fetch('https://dsanzmbarrick.github.io/barrickacademy-calendar/data.json?t='+Date.now(),{cache:'no-store'});const data=await res.json();renderAll(data);}catch(e){console.error(e);}}
